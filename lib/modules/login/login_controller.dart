@@ -1,3 +1,4 @@
+import 'package:base_flutter/shared/widgets/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../data/exceptions/exception_validation.dart';
@@ -12,9 +13,13 @@ class LoginController extends BBSFormController {
   Future login() async {
     super.validateForm(() async {
       try {
+        BBSDialogLoading.showLoading(context);
         await _repository.login(userName: "", password: "");
       } on ExceptionValidation catch (e) {
-      } finally {}
+        ToastCustom.error(context, e.message);
+      } finally {
+        BBSDialogLoading.hideLoading(context);
+      }
     });
   }
 }
